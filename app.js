@@ -16,7 +16,8 @@ const getImage = async () => {
   const { browser, page } = response;
   console.log("Received Browser");
   console.log("Moving to page..");
-  page.goto(url, { waitUntil: "networkidle0" });
+  // page.goto(url, { waitUntil: "networkidle0" });
+  page.goto(url);
   const ss = await getScreenshot(page, browser);
   console.log("Screenshot successful, size of base64", ss.length);
   await saveScreenshot(ss);
