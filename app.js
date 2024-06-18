@@ -16,6 +16,7 @@ const getImage = async () => {
   console.log("Moving to page..");
   page.goto(url, { waitUntil: "domcontentloaded" });
   const ss = await getScreenshot(page,browser);
+  console.log("screenshot successfull, size of base64 ",ss.length);
   return ss;
 };
 
