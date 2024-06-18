@@ -16,7 +16,7 @@ const getImage = async () => {
   const { browser, page } = response;
   console.log("Received Browser");
   console.log("Moving to page..");
-  await page.goto(url, { waitUntil: "domcontentloaded" });
+  page.goto(url, { waitUntil: "domcontentloaded" });
   const ss = await getScreenshot(page, browser);
   console.log("Screenshot successful, size of base64", ss.length);
   await saveScreenshot(ss);
@@ -33,7 +33,7 @@ const getScreenshot = (page, browser) => {
       const ssBase64 = ss.toString("base64");
       await browser.close();
       resolve(ssBase64);
-    }, 20000);
+    }, 60000);
   });
 };
 
