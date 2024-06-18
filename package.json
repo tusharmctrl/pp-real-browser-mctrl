@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "antibotbrowser": "^1.0.5",
+    "puppeteer": "^22.11.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "puppeteer-real-browser": "^1.2.18",
+    "puppeteer-screen-recorder": "^3.0.3"
+  },
+  "name": "puppeteer-bypass",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
