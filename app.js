@@ -39,14 +39,24 @@ const getScreenshot = (page, browser) => {
 
 const saveScreenshot = (base64) => {
   return new Promise((resolve, reject) => {
-    const filePath = path.join('/pp', 'screenshot.txt');
-    fs.writeFile(filePath, base64, 'utf8', (err) => {
+    const dirPath = '/pp';
+    const filePath = path.join(dirPath, 'screenshot.txt');
+
+    // Ensure the directory exists
+    fs.mkdir(dirPath, { recursive: true }, (err) => {
       if (err) {
-        console.error("Failed to save screenshot:", err);
+        console.error("Failed to create directory:", err);
         reject(err);
       } else {
-        console.log("Screenshot saved successfully to", filePath);
-        resolve();
+        fs.writeFile(filePath, base64, 'utf8', (err) => {
+          if (err) {
+            console.error("Failed to save screenshot:", err);
+            reject(err);
+          } else {
+            console.log("Screenshot saved successfully to", filePath);
+            resolve();
+          }
+        });
       }
     });
   });
