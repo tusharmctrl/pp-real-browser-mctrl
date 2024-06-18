@@ -6,29 +6,31 @@ const getImage = () => {
     console.error("URL environment variable is not set!");
     process.exit(1);
   }
-  connect({
+  const response = await connect({
     headless: "auto",
     fingerprint: true,
     turnstile: true,
-  })
-    .then(async (response) => {
-      const { browser, page } = response;
-      console.log("Received Browser");
-      setTimeout(async () => {
-        const ss = await page.screenshot({
-          fullMode: true,
-        });
-        console.log("almost there...");
-        const ssBase64 = ss.toString("base64");
-        await browser.close();
-        return ssBase64;
-      }, 10000);
-      page.goto(url, { waitUntil: "domcontentloaded" });
-      console.log("Moving to page..");
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
+  });
+  const { browser, page } = response;
+  console.log("Received Browser");
+  console.log("Moving to page..");
+  page.goto(url, { waitUntil: "domcontentloaded" });
+  const ss = await getScreenshot(page,browser);
+  return ss;
 };
+
+const getScreenshot = (page,browser) => {
+  return new Promise((resolve) => {
+    setTimeout(async () => {
+      const ss = await page.screenshot({
+        fullMode: true,
+      });
+      console.log("almost there...");
+      const ssBase64 = ss.toString("base64");
+      await browser.close();
+      resolve(ssBase64);
+    }, 10000);
+  })
+}
 
 getImage();
