@@ -20,7 +20,6 @@ const getImage = () => {
         });
         console.log("almost there...");
         const ssBase64 = ss.toString("base64");
-        console.log(ss.toString("base64"));
         await browser.close();
         return ssBase64;
       }, 10000);
