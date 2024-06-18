@@ -1,6 +1,6 @@
 import { connect } from "puppeteer-real-browser";
 
-const getImage = () => {
+const getImage = async () => {
   const url = process.env.URL || "";
   if (!url) {
     console.error("URL environment variable is not set!");
