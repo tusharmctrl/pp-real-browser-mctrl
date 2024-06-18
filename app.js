@@ -33,7 +33,7 @@ const getScreenshot = (page, browser) => {
       const ssBase64 = ss.toString("base64");
       await browser.close();
       resolve(ssBase64);
-    }, 10000);
+    }, 20000);
   });
 };
 
