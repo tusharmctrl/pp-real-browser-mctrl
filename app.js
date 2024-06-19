@@ -21,7 +21,7 @@ const getScreenshot = async (url) => {
 
   try {
     await page.goto(url, { waitUntil: "domcontentloaded" });
-    await sleep(10000);
+    await sleep(20000);
 
     const screenshot = await page.screenshot({
       fullPage: true,
