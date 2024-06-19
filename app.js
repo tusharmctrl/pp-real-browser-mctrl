@@ -1,6 +1,7 @@
 import { connect } from "puppeteer-real-browser";
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
+const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const getImage = async () => {
   const url = process.env.URL || "";
@@ -16,40 +17,46 @@ const getImage = async () => {
   const { browser, page } = response;
   console.log("Received Browser");
   console.log("Moving to page..");
-  // page.goto(url, { waitUntil: "networkidle0" });
-  page.goto(url);
-  const ss = await getScreenshot(page, browser);
-  console.log("Screenshot successful, size of base64", ss.length);
-  await saveScreenshot(ss);
-  console.log("Screenshot saved");
+  try {
+    await page.goto(url, { waitUntil: "networkidle0" });
+    const ss = await getScreenshot(page);
+    console.log("Screenshot successful, size of base64", ss.length);
+    await saveScreenshot(ss);
+    console.log("Screenshot saved");
+  } catch (error) {
+    console.error("Failed to capture screenshot:", error);
+  } finally {
+    await browser.close();
+  }
 };
 
-const getScreenshot = (page, browser) => {
-  return new Promise((resolve) => {
-    setTimeout(async () => {
-      const ss = await page.screenshot({
-        fullMode: true,
-      });
-      console.log("Almost there...");
-      const ssBase64 = ss.toString("base64");
-      await browser.close();
-      resolve(ssBase64);
-    }, 60000);
-  });
+const getScreenshot = async (page) => {
+  try {
+    console.log("We are processing to capture a screenshot, please wait...");
+    await sleep(5000);
+    const screenshot = await page.screenshot({
+      fullPage: true,
+      path: "test.png",
+    });
+    console.log("Captured...");
+    return screenshot.toString("base64");
+  } catch (error) {
+    console.error("Error while taking screenshot:", error);
+    throw error;
+  }
 };
 
 const saveScreenshot = (base64) => {
   return new Promise((resolve, reject) => {
-    const dirPath = '/pp';
-    const filePath = path.join(dirPath, 'screenshot.txt');
+    const dirPath = "/pp";
+    const filePath = path.join(dirPath, "screenshot.txt");
 
-    // Ensure the directory exists
     fs.mkdir(dirPath, { recursive: true }, (err) => {
       if (err) {
         console.error("Failed to create directory:", err);
         reject(err);
       } else {
-        fs.writeFile(filePath, base64, 'utf8', (err) => {
+        fs.writeFile(filePath, base64, "utf8", (err) => {
           if (err) {
             console.error("Failed to save screenshot:", err);
             reject(err);
