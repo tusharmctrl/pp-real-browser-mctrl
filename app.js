@@ -18,7 +18,7 @@ const getImage = async () => {
   console.log("Received Browser");
   console.log("Moving to page..");
   try {
-    page.goto(url, { waitUntil: "networkidle0" });
+    await page.goto(url, { waitUntil: "networkidle0" });
     const ss = await getScreenshot(page);
     console.log("Screenshot successful, size of base64", ss.length);
     await saveScreenshot(ss);
@@ -33,11 +33,12 @@ const getImage = async () => {
 const getScreenshot = async (page) => {
   try {
     console.log(
-      "We are processing to capture a screenshot, please wait for 50 seconds..."
+      "We are processing to capture a screenshot, please wait for 10 seconds..."
     );
-    await sleep(50000);
+    await sleep(10000);
     const screenshot = await page.screenshot({
       fullPage: true,
+      path: "test.png",
     });
     console.log("Captured...");
     return screenshot.toString("base64");
