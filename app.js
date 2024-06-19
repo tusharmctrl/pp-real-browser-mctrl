@@ -32,8 +32,10 @@ const getImage = async () => {
 
 const getScreenshot = async (page) => {
   try {
-    console.log("We are processing to capture a screenshot, please wait...");
-    await sleep(5000);
+    console.log(
+      "We are processing to capture a screenshot, please wait for 50 seconds..."
+    );
+    await sleep(50000);
     const screenshot = await page.screenshot({
       fullPage: true,
       path: "test.png",
