@@ -4,7 +4,7 @@ import path from "path";
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const getImage = async () => {
-  const url = process.env.URL || "";
+  const url = process.env.URL || "https://www.stake.com";
   if (!url) {
     console.error("URL environment variable is not set!");
     process.exit(1);
@@ -18,7 +18,7 @@ const getImage = async () => {
   console.log("Received Browser");
   console.log("Moving to page..");
   try {
-    await page.goto(url, { waitUntil: "networkidle0" });
+    page.goto(url, { waitUntil: "networkidle0" });
     const ss = await getScreenshot(page);
     console.log("Screenshot successful, size of base64", ss.length);
     await saveScreenshot(ss);
@@ -38,7 +38,6 @@ const getScreenshot = async (page) => {
     await sleep(50000);
     const screenshot = await page.screenshot({
       fullPage: true,
-      path: "test.png",
     });
     console.log("Captured...");
     return screenshot.toString("base64");
